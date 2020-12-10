@@ -40,12 +40,15 @@
                             <label>Duration</label>
                             <input formControlName="duration" min="0" required [(ngModel)]="song.duration" class="form-control mr-2 p-2" type="number" placeholder="Duration*">
                         </div>
-                    </div>
                     
-                    <!-- Only display remove button when song length is more than one -->
-                    <button *ngIf="playlistService.activePlaylist.songs.length > 1" 
-                        (click)="playlistService.removeSongFromPlaylist(playlistService.activePlaylist, index)"
-                        class="btn btn-sm btn-danger">X</button>
+                        <div class="form-group col d-flex align-items-end pb-1">
+                            <div>
+                                <button *ngIf="playlistService.activePlaylist.songs.length > 1" 
+                                    (click)="playlistService.removeSongFromPlaylist(playlistService.activePlaylist, index)"
+                                    class="btn btn-sm btn-danger">X</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-sm btn-primary" (click)="playlistService.addSongToPlaylist(playlistService.activePlaylist)">+</button>

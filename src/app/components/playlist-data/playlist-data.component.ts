@@ -1,5 +1,4 @@
 import { Component, OnInit, } from '@angular/core';
-import { FormBuilder, FormArray, Validator } from '@angular/forms'
 
 import { PlaylistService }  from 'src/app/services/playlist.service'
 
@@ -10,7 +9,7 @@ import { PlaylistService }  from 'src/app/services/playlist.service'
 })
 export class PlaylistDataComponent implements OnInit {
   playlistForm = this.playlistService.playlistForm;
-  constructor(private playlistService: PlaylistService, private fb: FormBuilder) { }
+  constructor(private playlistService: PlaylistService) { }
 
   playlists = this.playlistService.playlists;
 
