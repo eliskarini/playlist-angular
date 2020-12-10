@@ -1,0 +1,25 @@
+<div class="card my-3">
+    <div class="p-3">
+        <div><h2>{{ playlist.name }}</h2></div>
+        <div class="text-muted">total {{ playlist.totalSongs }} songs, {{ playlist.totalDuration }} minutes</div>
+        <p>{{ playlist.description }}</p>
+        <hr>
+        <div>
+            <div *ngFor="let song of playlist.songs" class="my-4 pl-4 d-flex align-items-center">
+                <span class="mdi mdi-music-note mr-3"></span>
+                <div>
+                    <div>{{ song.title }}</div>
+                    <div>
+                        <span>by {{ song.artist }}</span>.
+                        <span>{{ song.duration }} minutes</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-outline text-danger m-2 font-weight-bold" (click)="playlistService.deletePlaylist(index)">DELETE</button>
+            <button class="btn btn-outline text-dark m-2 font-weight-bold" (click)="playlistService.open(modalTemplate, playlist)">EDIT</button>
+        </div>
+    </div>
+</div>

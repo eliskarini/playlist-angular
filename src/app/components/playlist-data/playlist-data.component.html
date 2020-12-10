@@ -1,0 +1,45 @@
+<div class="jumbotron text-center">
+    <div><h1>The Playlist</h1></div>
+    <div>Here you can create your own playlist, edit your already existing playlist, add songs, and show it to the world!</div>
+</div>
+<div class="container">
+    <div><button class="btn btn-primary" (click)="playlistService.open(content)"><span class="mdi mdi-playlist-plus"></span> New Playlist</button></div>
+    <hr>
+    <playlist-item *ngFor="let playlist of playlists; let index = index" [playlist]="playlist" [modalTemplate]="content"></playlist-item>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        Status: {{playlistForm.status}}
+        <h4 class="modal-title" id="modal-basic-title">Create New Playlist</h4>
+        <h4 class="modal-title" id="modal-basic-title">Current active: {{playlistService.activePlaylist ? playlistService.activePlaylist.name : 'Unselected'}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="playlistForm" class="mx-2">
+            <div><input formControlName="name" required [(ngModel)]="playlistService.activePlaylist.name" class="w-100 my-2 p-2" type="text" placeholder="Playlist name*"></div>
+            <div><input formControlName="description" required [(ngModel)]="playlistService.activePlaylist.description" class="w-100 my-2 p-2" type="text" placeholder="Description*"></div>
+            <div formArrayName="songs">
+                <div *ngFor="let song of playlistService.activePlaylist.songs; let index = index" class="my-2">
+                    <div [formGroupName]="index">
+                        <input formControlName="title" required [(ngModel)]="song.title" class="mr-2 p-2" type="text" placeholder="Song title*">
+                        <input formControlName="artist" required [(ngModel)]="song.artist" class="mr-2 p-2" type="text" placeholder="Artist*">
+                        <input formControlName="duration" required [(ngModel)]="song.duration" class="mr-2 p-2" type="number" placeholder="Duration*">
+                    </div>
+                    
+                    <!-- Only display remove button when song length is more than one -->
+                    <button *ngIf="playlistService.activePlaylist.songs.length > 1" 
+                        (click)="playlistService.removeSongFromPlaylist(playlistService.activePlaylist, index)"
+                        class="btn btn-sm btn-danger">X</button>
+                </div>
+            </div>
+                    <button class="btn btn-sm btn-primary" (click)="playlistService.addSongToPlaylist(playlistService.activePlaylist)">+</button>
+        </form> 
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger m-2" (click)="modal.dismiss('Cancel click')">CANCEL</button>
+        <button type="button" class="btn btn-primary m-2" (click)="modal.close('Save click')">SUBMIT</button>
+    </div>
+</ng-template>
