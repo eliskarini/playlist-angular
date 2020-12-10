@@ -10,23 +10,36 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        Status: {{playlistForm.status}}
-        <h4 class="modal-title" id="modal-basic-title">Create New Playlist</h4>
-        <h4 class="modal-title" id="modal-basic-title">Current active: {{playlistService.activePlaylist ? playlistService.activePlaylist.name : 'Unselected'}}</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{playlistService.modalTitle}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" *ngIf="playlistService.activePlaylist">
         <form [formGroup]="playlistForm" class="mx-2">
-            <div><input formControlName="name" required [(ngModel)]="playlistService.activePlaylist.name" class="w-100 my-2 p-2" type="text" placeholder="Playlist name*"></div>
-            <div><input formControlName="description" required [(ngModel)]="playlistService.activePlaylist.description" class="w-100 my-2 p-2" type="text" placeholder="Description*"></div>
+            <div class="form-group">
+                <label>Name</label>
+                <input formControlName="name" required [(ngModel)]="playlistService.activePlaylist.name" class="w-100 my-2 p-2" type="text" placeholder="Playlist name*">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input formControlName="description" required [(ngModel)]="playlistService.activePlaylist.description" class="w-100 my-2 p-2" type="text" placeholder="Description*">
+            </div>
             <div formArrayName="songs">
                 <div *ngFor="let song of playlistService.activePlaylist.songs; let index = index" class="my-2">
-                    <div [formGroupName]="index">
-                        <input formControlName="title" required [(ngModel)]="song.title" class="mr-2 p-2" type="text" placeholder="Song title*">
-                        <input formControlName="artist" required [(ngModel)]="song.artist" class="mr-2 p-2" type="text" placeholder="Artist*">
-                        <input formControlName="duration" required [(ngModel)]="song.duration" class="mr-2 p-2" type="number" placeholder="Duration*">
+                    <div formGroupName="{{index}}" class="form-row">
+                        <div class="form-group col">
+                            <label>Title</label>
+                            <input formControlName="title" required [(ngModel)]="song.title" class="form-control mr-2 p-2" type="text" placeholder="Song title*">
+                        </div>
+                        <div class="form-group col">
+                            <label>Artist</label>
+                            <input formControlName="artist" required [(ngModel)]="song.artist" class="form-control mr-2 p-2" type="text" placeholder="Artist*">
+                        </div>
+                        <div class="form-group col">
+                            <label>Duration</label>
+                            <input formControlName="duration" min="0" required [(ngModel)]="song.duration" class="form-control mr-2 p-2" type="number" placeholder="Duration*">
+                        </div>
                     </div>
                     
                     <!-- Only display remove button when song length is more than one -->
@@ -35,11 +48,11 @@
                         class="btn btn-sm btn-danger">X</button>
                 </div>
             </div>
-                    <button class="btn btn-sm btn-primary" (click)="playlistService.addSongToPlaylist(playlistService.activePlaylist)">+</button>
+            <button class="btn btn-sm btn-primary" (click)="playlistService.addSongToPlaylist(playlistService.activePlaylist)">+</button>
         </form> 
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger m-2" (click)="modal.dismiss('Cancel click')">CANCEL</button>
-        <button type="button" class="btn btn-primary m-2" (click)="modal.close('Save click')">SUBMIT</button>
+        <button type="button" class="btn btn-primary m-2" (click)="modal.close('Save click')" [disabled]="playlistForm.status == 'INVALID'">SUBMIT</button>
     </div>
 </ng-template>

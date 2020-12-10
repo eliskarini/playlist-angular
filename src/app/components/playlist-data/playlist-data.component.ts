@@ -9,17 +9,7 @@ import { PlaylistService }  from 'src/app/services/playlist.service'
   styleUrls: ['./playlist-data.component.css']
 })
 export class PlaylistDataComponent implements OnInit {
-  playlistForm = this.fb.group({
-    name: [''],
-    description: [''],
-    songs: this.fb.array([
-      this.fb.group({
-        title: [''],
-        artist: [''],
-        duration: ['']
-      })
-    ])
-  });
+  playlistForm = this.playlistService.playlistForm;
   constructor(private playlistService: PlaylistService, private fb: FormBuilder) { }
 
   playlists = this.playlistService.playlists;

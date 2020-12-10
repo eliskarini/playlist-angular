@@ -1,12 +1,15 @@
-import { JsonPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Playlist } from '../interfaces/playlist'
+import { Playlist } from '../interfaces/playlist';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
+  playlistForm;
+  modalTitle: string;
+
   activePlaylist: Playlist;
   tempActivePlaylist: Playlist;
 
@@ -54,14 +57,26 @@ export class PlaylistService {
     }
   ];
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder) { 
+    this.playlistForm = this.fb.group({
+      name: [],
+      description: [],
+      songs: this.fb.array([])
+    });
+  }
+
+  get songsArrayForm() {
+    return this.playlistForm.get('songs') as FormArray;
+  }
 
   open(content, playlist) {
     if (playlist) {
+      this.modalTitle = 'Edit Playlist';
       this.activePlaylist = playlist;
       // Save original data for restore when cancel
       this.tempActivePlaylist = JSON.parse(JSON.stringify(playlist));
     } else {
+      this.modalTitle = 'Create New Playlist'
       this.activePlaylist = {
         name: '',
         description: '',
@@ -74,6 +89,7 @@ export class PlaylistService {
         totalSongs: 0
       };
     }
+    this.updateSongsFormArray();
 
     this.modalService.open(content, {size: 'xl'}).result.then(() => {
       // Save function
@@ -103,6 +119,7 @@ export class PlaylistService {
     }
     // Splice(remove) song by song index
     playlist.songs.splice(songIndex, 1);
+    this.updateSongsFormArray()
   }
 
   addSongToPlaylist(playlist: Playlist) {
@@ -111,5 +128,17 @@ export class PlaylistService {
       artist: '',
       duration: 0,
     });
+    this.updateSongsFormArray()
+  }
+
+  updateSongsFormArray() {
+    this.songsArrayForm.clear();
+    this.activePlaylist.songs.forEach(() => {
+      this.songsArrayForm.push(
+        this.fb.group({
+          title: [], artist: [], duration: ['', Validators.min(0)]
+        })
+      );
+    })
   }
 }
