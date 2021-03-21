@@ -57,7 +57,7 @@ export class PlaylistService {
     }
   ];
 
-  constructor(public modalService: NgbModal, public fb: FormBuilder) { 
+  constructor(private modalService: NgbModal, private fb: FormBuilder) { 
     this.playlistForm = this.fb.group({
       name: [],
       description: [],
@@ -69,7 +69,7 @@ export class PlaylistService {
     return this.playlistForm.get('songs') as FormArray;
   }
 
-  open(content, playlist?) {
+  open(content, playlist) {
     if (playlist) {
       this.modalTitle = 'Edit Playlist';
       this.activePlaylist = playlist;

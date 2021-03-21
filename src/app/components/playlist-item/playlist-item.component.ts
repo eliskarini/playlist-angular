@@ -11,7 +11,7 @@ export class PlaylistItemComponent implements OnInit {
   @Input() modalTemplate: ElementRef;
   @Input() playlistIndex: number;
 
-  constructor(private playlistService: PlaylistService) { }
+  constructor(public playlistService: PlaylistService) { }
 
   ngOnInit() {
   }

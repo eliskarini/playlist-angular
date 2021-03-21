@@ -9,7 +9,7 @@ import { PlaylistService }  from 'src/app/services/playlist.service'
 })
 export class PlaylistDataComponent implements OnInit {
   playlistForm = this.playlistService.playlistForm;
-  constructor(private playlistService: PlaylistService) { }
+  constructor(public playlistService: PlaylistService) { }
 
   playlists = this.playlistService.playlists;
 
