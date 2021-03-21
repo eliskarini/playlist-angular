@@ -57,7 +57,7 @@ export class PlaylistService {
     }
   ];
 
-  constructor(public modalService: NgbModal, private fb: FormBuilder) { 
+  constructor(public modalService: NgbModal, public fb: FormBuilder) { 
     this.playlistForm = this.fb.group({
       name: [],
       description: [],
