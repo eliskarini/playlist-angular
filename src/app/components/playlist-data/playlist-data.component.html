@@ -5,7 +5,7 @@
 <div class="container">
     <div><button class="btn btn-primary" (click)="playlistService.open(content)"><span class="mdi mdi-playlist-plus"></span> New Playlist</button></div>
     <hr>
-    <playlist-item *ngFor="let playlist of playlists; let index = index" [playlist]="playlist" [modalTemplate]="content"></playlist-item>
+    <playlist-item *ngFor="let playlist of playlists; let i = index;" [playlist]="playlist" [modalTemplate]="content" [playlistIndex]="i"></playlist-item>
 </div>
 
 <ng-template #content let-modal>
@@ -43,7 +43,7 @@
                     
                         <div class="form-group col d-flex align-items-end pb-1">
                             <div>
-                                <button *ngIf="playlistService.activePlaylist.songs.length > 1" 
+                                <button *ngIf="playlistService.activePlaylist.songs.length > 2" 
                                     (click)="playlistService.removeSongFromPlaylist(playlistService.activePlaylist, index)"
                                     class="btn btn-sm btn-danger">X</button>
                             </div>
@@ -56,6 +56,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger m-2" (click)="modal.dismiss('Cancel click')">CANCEL</button>
-        <button type="button" class="btn btn-primary m-2" (click)="modal.close('Save click')" [disabled]="playlistForm.status == 'INVALID'">SUBMIT</button>
+        <button type="button" class="btn btn-primary m-2" (click)="modal.close('Save click')" [disabled]="!playlistForm.valid">SUBMIT</button>
     </div>
 </ng-template>

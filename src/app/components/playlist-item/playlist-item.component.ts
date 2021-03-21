@@ -9,6 +9,7 @@ import { PlaylistService } from 'src/app/services/playlist.service'
 export class PlaylistItemComponent implements OnInit {
   @Input() playlist: object;
   @Input() modalTemplate: ElementRef;
+  @Input() playlistIndex: number;
 
   constructor(private playlistService: PlaylistService) { }
 

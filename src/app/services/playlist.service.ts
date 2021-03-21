@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Playlist } from '../interfaces/playlist';
 
@@ -81,6 +81,10 @@ export class PlaylistService {
         name: '',
         description: '',
         songs: [{
+          title: '',
+          artist: '',
+          duration: 0,
+        },{
           title: '',
           artist: '',
           duration: 0,
