@@ -7,7 +7,7 @@ import { PlaylistService } from 'src/app/services/playlist.service'
   styleUrls: ['./playlist-item.component.css']
 })
 export class PlaylistItemComponent implements OnInit {
-  @Input() playlist: object;
+  @Input() playlist: any;
   @Input() modalTemplate: ElementRef;
   @Input() playlistIndex: number;
 
