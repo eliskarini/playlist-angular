@@ -69,7 +69,7 @@ export class PlaylistService {
     return this.playlistForm.get('songs') as FormArray;
   }
 
-  open(content, playlist) {
+  open(content, playlist?) {
     if (playlist) {
       this.modalTitle = 'Edit Playlist';
       this.activePlaylist = playlist;
